@@ -27,6 +27,12 @@ def write_entry() -> str:
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(JOKE)
+    # Read back and confirm the file holds exactly the joke: a silent
+    # truncation or encoding slip would otherwise void the entry at the
+    # gate, and the sandbox gives no second chance to notice it.
+    with open(path, "r", encoding="utf-8") as fh:
+        written = fh.read()
+    assert written == JOKE, "entry.txt does not match the joke exactly"
     return path
 
 
